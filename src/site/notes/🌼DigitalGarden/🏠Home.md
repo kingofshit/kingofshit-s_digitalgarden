@@ -16,9 +16,11 @@
 
 
 
-
+# 研究论文
 + [[🎓研究生/🌙fNIRS+PTSD/文献阅读/功能性近红外光谱脑成像可预测暴露于创伤应激的青少年的症状严重程度\|功能性近红外光谱脑成像可预测暴露于创伤应激的青少年的症状严重程度]]
 + [[🎓研究生/🌙fNIRS+PTSD/文献阅读/Theta-burst stimulation of TMS treatment for anxiety and depression A FNIRS study\|Theta-burst stimulation of TMS treatment for anxiety and depression A FNIRS study]]
+
+# 综述
 
 </div></div>
 
@@ -96,6 +98,7 @@
 
 + [[🎓研究生/论文阅读/工具方法/论文阅读方法\|论文阅读方法]]
 + [[🎓研究生/论文写作/review写作方法\|review写作方法]]
++ [[🎓研究生/论文写作/PTSD患者在自述刺激下的近红外信号时空动力学研究\|PTSD患者在自述刺激下的近红外信号时空动力学研究]]
 
 </div></div>
 
