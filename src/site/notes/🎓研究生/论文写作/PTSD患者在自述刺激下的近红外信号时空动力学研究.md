@@ -15,6 +15,7 @@
 ## 2.2 近红外信号的特点
 ## 2.3 近红外信号采集
 ![zishu范式.drawio.png](https://s2.loli.net/2023/11/21/QB6nItXTjsNE5SO.png)
+
 ## 2.4 本章小结
 
 # 第3章 近红外信号的处理
