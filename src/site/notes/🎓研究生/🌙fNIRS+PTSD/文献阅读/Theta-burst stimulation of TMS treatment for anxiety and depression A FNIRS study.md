@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/🎓研究生/🌙fNIRS+PTSD/文献阅读/Theta-burst stimulation of TMS treatment for anxiety and depression A FNIRS study/","dgPassFrontmatter":true}
+{"dg-publish":true,"tags":["TMS","功能性近红外光谱（FNIRS）","抑郁症"],"permalink":"/🎓研究生/🌙fNIRS+PTSD/文献阅读/Theta-burst stimulation of TMS treatment for anxiety and depression A FNIRS study/","dgPassFrontmatter":true}
 ---
 
 
