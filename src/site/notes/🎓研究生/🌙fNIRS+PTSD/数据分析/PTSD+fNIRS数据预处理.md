@@ -4,7 +4,8 @@
 
 
 使用工具箱[[🎓研究生/近红外/工具/NIRS_KIT\|NIRS_KIT]]
-
+ptsd:31
+hc:28
 # 数据准备和质量检查 (Data Viewer)
 ## 数据格式转换 (Data Preparation)
 将数据转换成工具包所需格式
