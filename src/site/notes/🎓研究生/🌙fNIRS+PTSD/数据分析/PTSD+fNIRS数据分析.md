@@ -6,147 +6,614 @@
 # 时间层面分析
 ## 均值
 ### 步骤
-1. 使用ReadMatRawdata.py读取预处理后mat格式数据，分段计算各通道oxy，dxy，total均值，保存在mean.csv中；
-2. 使用ReadCSV_mean.py进行mean.csv读取，生成各通道不同阶段均值图片，并对每个通道每个阶段的均值进行t检验和Mann-Whitney U 检验。
-### 结果
-#### 未插值前
-##### t检验
-######  oxy
-channel 2 period 2 t 检验:  p value is 0.03790910141082163
-channel 3 period 2 t 检验:  p value is 0.02062138400855481
-channel 7 period 2 t 检验:  p value is 0.03444607385396066
-channel 14 period 2 t 检验:  p value is 0.041233604337232534
-channel 15 period 6 t 检验:  p value is 0.002227478549276086
-channel 17 period 6 t 检验:  p value is 0.04212406718885562
-channel 21 period 6 t 检验:  p value is 0.03404328104028488
-channel 22 period 6 t 检验:  p value is 0.0496851466535464
-channel 23 period 6 t 检验:  p value is 0.019216676584281965
-channel 27 period 2 t 检验:  p value is 0.03835928968349069
-channel 27 period 6 t 检验:  p value is 0.03311999306748099
-channel 30 period 2 t 检验:  p value is 0.03860225657022345
-channel 30 period 6 t 检验:  p value is 0.026976392926827124
-channel 31 period 4 t 检验:  p value is 0.036652888373196295
-channel 36 period 2 t 检验:  p value is 0.023668786502818354
-channel 38 period 4 t 检验:  p value is 0.0040888325325557865
-channel 42 period 2 t 检验:  p value is 0.03624116031879717
-channel 42 period 4 t 检验:  p value is 0.0156511549018692
-channel 43 period 3 t 检验:  p value is 0.01173982323525546
-######  dxy
-channel 1 period 2 t 检验:  p value is 0.030181145919394112
-channel 3 period 2 t 检验:  p value is 0.02031663962241929
-channel 6 period 6 t 检验:  p value is 0.012760703193732886
-channel 9 period 2 t 检验:  p value is 0.035952617211347355
-channel 13 period 2 t 检验:  p value is 0.01599857389791225
-channel 15 period 2 t 检验:  p value is 0.02547341706138953
-channel 15 period 6 t 检验:  p value is 0.010821817124031893
-channel 22 period 3 t 检验:  p value is 0.03161566344830526
-channel 23 period 6 t 检验:  p value is 0.04665535082511936
-channel 26 period 6 t 检验:  p value is 0.04465392145811336
-channel 27 period 2 t 检验:  p value is 0.02997373190069803
-channel 27 period 6 t 检验:  p value is 0.0062364864252770985
-channel 29 period 6 t 检验:  p value is 0.025578640438506512
-channel 30 period 2 t 检验:  p value is 0.040707184362616104
-channel 31 period 4 t 检验:  p value is 0.031247823252193163
-channel 36 period 2 t 检验:  p value is 0.04555032708068024
-channel 38 period 4 t 检验:  p value is 0.010804017790800416
-channel 42 period 2 t 检验:  p value is 0.04144189044700345
-channel 42 period 4 t 检验:  p value is 0.04456650057440199
-channel 43 period 3 t 检验:  p value is 0.02098970033938161
-######  total
-channel 3 period 3 t 检验:  p value is 0.020803648920107616
-channel 4 period 1 t 检验:  p value is 0.02973158833769609
-channel 6 period 3 t 检验:  p value is 0.03114094411599159
-channel 15 period 1 t 检验:  p value is 0.03560783774600178
-channel 15 period 6 t 检验:  p value is 0.004645818689643714
-channel 16 period 6 t 检验:  p value is 0.04223429515774935
-channel 19 period 3 t 检验:  p value is 0.04990011832663225
-channel 30 period 2 t 检验:  p value is 0.04811461848060897
-channel 35 period 6 t 检验:  p value is 0.01900664086952798
-channel 36 period 2 t 检验:  p value is 0.01516526078323693
-channel 38 period 4 t 检验:  p value is 0.00473779299917551
-channel 39 period 4 t 检验:  p value is 0.03029321757079821
-channel 41 period 4 t 检验:  p value is 0.01934833010690204
-channel 42 period 2 t 检验:  p value is 0.04716292663636336
-channel 42 period 4 t 检验:  p value is 0.013375523566480082
-channel 43 period 3 t 检验:  p value is 0.01315817335329052
+1. 使用ReadMatRawdata.py读取预处理后mat格式数据，分段计算各通道oxy，dxy，total均值，保存在mean.csv中。
+2. 使用chazhi.py进行缺失值填补，生成mean_chazhi.csv。
+3. 组间：使用ReadCSV_mean.py进行mean_chazhi.csv读取，生成各通道不同阶段均值图片，并对每个通道每个阶段的均值进行Shapiro-Wilk 测试判断是否符合正态分布，随后进行独立样本 t 检验和Mann-Whitney U 检验。
+4. 不同任务阶段之间：使用ReadCSV_mean.py进行mean_chazhi.csv读取，并对每个通道不同阶段的均值进行Shapiro-Wilk 测试判断是否符合正态分布，随后进行配对 t 检验和Wilcoxon符号秩检验。
+### 差异（组间）
+#### 独立样本 t 检验
+##### oxy
+- channel 6 period 6 t 检验:  p value is 0.031726943694773344
+- channel 15 period 6 t 检验:  p value is 0.0032079485944800585
+- channel 27 period 2 t 检验:  p value is 0.033139996394576744
+##### dxy
+- channel 6 period 6 t 检验:  p value is 0.008180258486405176
+- channel 27 period 2 t 检验:  p value is 0.02743538126850327
+##### total
+- channel 1 period 3 t 检验:  p value is 0.02591128473902421
+- channel 46 period 4 t 检验:  p value is 0.023185409733800223
+- channel 48 period 4 t 检验:  p value is 0.047039089668227424
+#### Mann-Whitney U 检验
+##### oxy
+- channel 6 period 6 Mann-Whitney U 检验:  p value is 0.0214662479883721
+- channel 11 period 5 Mann-Whitney U 检验:  p value is 0.0493292645126899
+- channel 12 period 3 Mann-Whitney U 检验:  p value is 0.025158243573510916
+- channel 12 period 5 Mann-Whitney U 检验:  p value is 0.041188069381009794
+- channel 13 period 2 Mann-Whitney U 检验:  p value is 0.04760090571179918
+- channel 15 period 3 Mann-Whitney U 检验:  p value is 0.016131009370682795
+- channel 15 period 6 Mann-Whitney U 检验:  p value is 0.011004603569989505
+- channel 16 period 6 Mann-Whitney U 检验:  p value is 0.03552267451827834
+- channel 17 period 6 Mann-Whitney U 检验:  p value is 0.02938768559444728
+- channel 21 period 6 Mann-Whitney U 检验:  p value is 0.041188069381009794
+- channel 22 period 3 Mann-Whitney U 检验:  p value is 0.006146067708241389
+- channel 22 period 6 Mann-Whitney U 检验:  p value is 0.01307078102592529
+- channel 23 period 3 Mann-Whitney U 检验:  p value is 0.04592374260166791
+- channel 23 period 6 Mann-Whitney U 检验:  p value is 0.04592374260166791
+- channel 24 period 2 Mann-Whitney U 检验:  p value is 0.018255260037222904
+- channel 24 period 3 Mann-Whitney U 检验:  p value is 0.02720209981924224
+- channel 27 period 2 Mann-Whitney U 检验:  p value is 0.041188069381009794
+- channel 28 period 1 Mann-Whitney U 检验:  p value is 0.024187132414584683
+- channel 28 period 6 Mann-Whitney U 检验:  p value is 0.011004603569989505
+- channel 34 period 6 Mann-Whitney U 检验:  p value is 0.017521441342281636
+- channel 35 period 6 Mann-Whitney U 检验:  p value is 0.03552267451827834
+- channel 36 period 2 Mann-Whitney U 检验:  p value is 0.03294866247385481
+- channel 36 period 4 Mann-Whitney U 检验:  p value is 0.02720209981924224
+- channel 36 period 6 Mann-Whitney U 检验:  p value is 0.0232486867036953
+- channel 38 period 4 Mann-Whitney U 检验:  p value is 0.03421498664840317
+- channel 41 period 4 Mann-Whitney U 检验:  p value is 0.025158243573510916
+- channel 42 period 4 Mann-Whitney U 检验:  p value is 0.025158243573510916
+- channel 42 period 5 Mann-Whitney U 检验:  p value is 0.0493292645126899
+- channel 46 period 4 Mann-Whitney U 检验:  p value is 0.039704389438024325
+- channel 46 period 6 Mann-Whitney U 检验:  p value is 0.0493292645126899
+- channel 47 period 6 Mann-Whitney U 检验:  p value is 0.007722032878597882
+##### dxy
+- channel 6 period 6 Mann-Whitney U 检验:  p value is 0.013638149445953757
+- channel 12 period 1 Mann-Whitney U 检验:  p value is 0.04760090571179918
+- channel 12 period 5 Mann-Whitney U 检验:  p value is 0.041188069381009794
+- channel 12 period 6 Mann-Whitney U 检验:  p value is 0.03294866247385481
+- channel 13 period 2 Mann-Whitney U 检验:  p value is 0.015472885536714711
+- channel 15 period 3 Mann-Whitney U 检验:  p value is 0.025158243573510916
+- channel 15 period 6 Mann-Whitney U 检验:  p value is 0.016813612176700694
+- channel 16 period 6 Mann-Whitney U 检验:  p value is 0.044296633661378766
+- channel 17 period 6 Mann-Whitney U 检验:  p value is 0.02720209981924224
+- channel 21 period 2 Mann-Whitney U 检验:  p value is 0.03552267451827834
+- channel 22 period 3 Mann-Whitney U 检验:  p value is 0.002585812706447812
+- channel 22 period 6 Mann-Whitney U 检验:  p value is 0.011491931883347864
+- channel 23 period 3 Mann-Whitney U 检验:  p value is 0.04592374260166791
+- channel 23 period 6 Mann-Whitney U 检验:  p value is 0.044296633661378766
+- channel 24 period 2 Mann-Whitney U 检验:  p value is 0.024187132414584683
+- channel 27 period 2 Mann-Whitney U 检验:  p value is 0.04592374260166791
+- channel 28 period 1 Mann-Whitney U 检验:  p value is 0.03053601612048537
+- channel 28 period 6 Mann-Whitney U 检验:  p value is 0.013638149445953757
+- channel 29 period 6 Mann-Whitney U 检验:  p value is 0.042718448719006416
+- channel 34 period 6 Mann-Whitney U 检验:  p value is 0.0214662479883721
+- channel 36 period 2 Mann-Whitney U 检验:  p value is 0.036872766092109564
+- channel 36 period 6 Mann-Whitney U 检验:  p value is 0.031722676125073325
+- channel 41 period 4 Mann-Whitney U 检验:  p value is 0.039704389438024325
+- channel 42 period 4 Mann-Whitney U 检验:  p value is 0.025158243573510916
+- channel 42 period 6 Mann-Whitney U 检验:  p value is 0.041188069381009794
+- channel 47 period 6 Mann-Whitney U 检验:  p value is 0.016813612176700694
+##### total
+- channel 3 period 2 Mann-Whitney U 检验:  p value is 0.036872766092109564
+- channel 3 period 3 Mann-Whitney U 检验:  p value is 0.028276702504625637
+- channel 4 period 1 Mann-Whitney U 检验:  p value is 0.0232486867036953
+- channel 11 period 5 Mann-Whitney U 检验:  p value is 0.038266315247307066
+- channel 12 period 1 Mann-Whitney U 检验:  p value is 0.04760090571179918
+- channel 12 period 2 Mann-Whitney U 检验:  p value is 0.038266315247307066
+- channel 12 period 3 Mann-Whitney U 检验:  p value is 0.007380549256895153
+- channel 15 period 3 Mann-Whitney U 检验:  p value is 0.005601433418400701
+- channel 22 period 6 Mann-Whitney U 检验:  p value is 0.0232486867036953
+- channel 24 period 2 Mann-Whitney U 检验:  p value is 0.016813612176700694
+- channel 24 period 3 Mann-Whitney U 检验:  p value is 0.0014723024311805001
+- channel 24 period 5 Mann-Whitney U 检验:  p value is 0.039704389438024325
+- channel 26 period 3 Mann-Whitney U 检验:  p value is 0.044296633661378766
+- channel 27 period 3 Mann-Whitney U 检验:  p value is 0.0232486867036953
+- channel 30 period 4 Mann-Whitney U 检验:  p value is 0.038266315247307066
+- channel 34 period 6 Mann-Whitney U 检验:  p value is 0.026162925684624087
+- channel 35 period 6 Mann-Whitney U 检验:  p value is 0.005345788575757188
+- channel 36 period 2 Mann-Whitney U 检验:  p value is 0.014838509012639379
+- channel 36 period 4 Mann-Whitney U 检验:  p value is 0.013638149445953757
+- channel 36 period 6 Mann-Whitney U 检验:  p value is 0.044296633661378766
+- channel 38 period 4 Mann-Whitney U 检验:  p value is 0.013638149445953757
+- channel 41 period 4 Mann-Whitney U 检验:  p value is 0.016131009370682795
+- channel 42 period 4 Mann-Whitney U 检验:  p value is 0.038266315247307066
+- channel 46 period 4 Mann-Whitney U 检验:  p value is 0.0064358840935650604
+- channel 47 period 5 Mann-Whitney U 检验:  p value is 0.042718448719006416
+- channel 47 period 6 Mann-Whitney U 检验:  p value is 0.03053601612048537
+### 差异（不同任务阶段之间）
+#### 配对 t 检验
+##### oxy
+- 配对t检验PTSD_Ch17_1_2: 0.038236809053011425
+- 配对t检验PTSD_Ch17_1_6: 0.007005532889070121
+##### dxy
+- 配对t检验HC_Ch44_1_2: 0.002144924449828232
+- 配对t检验HC_Ch44_2_5: 0.014316387399894666
+##### total
+- 配对t检验PTSD_Ch1_3_5: 0.03220378457414664
+#### Wilcoxon符号秩检验
+##### oxy
+- Wilcoxon符号秩检验PTSD_Ch1_3_5: 0.03935616556555033
+- Wilcoxon符号秩检验HC_Ch2_1_4: 0.008224666118621826
+- Wilcoxon符号秩检验HC_Ch2_1_6: 0.0024397894740104675
+- Wilcoxon符号秩检验HC_Ch2_2_4: 0.026356667280197144
+- Wilcoxon符号秩检验PTSD_Ch2_2_5: 0.01319857221096754
+- Wilcoxon符号秩检验PTSD_Ch2_3_4: 0.04345365799963474
+- Wilcoxon符号秩检验HC_Ch2_3_4: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch2_4_5: 0.0044362908229231834
+- Wilcoxon符号秩检验HC_Ch2_4_5: 0.0012892335653305054
+- Wilcoxon符号秩检验PTSD_Ch2_5_6: 0.008589296601712704
+- Wilcoxon符号秩检验HC_Ch2_5_6: 9.319186210632324e-05
+- Wilcoxon符号秩检验PTSD_Ch3_2_4: 0.03048440534621477
+- Wilcoxon符号秩检验PTSD_Ch3_2_6: 0.04345365799963474
+- Wilcoxon符号秩检验HC_Ch3_3_4: 0.012704446911811829
+- Wilcoxon符号秩检验HC_Ch3_3_6: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch3_4_5: 0.011838570237159729
+- Wilcoxon符号秩检验PTSD_Ch4_1_2: 0.033809719607234
+- Wilcoxon符号秩检验PTSD_Ch4_2_3: 0.00026073306798934937
+- Wilcoxon符号秩检验PTSD_Ch4_2_5: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch4_2_5: 0.029833190143108368
+- Wilcoxon符号秩检验PTSD_Ch4_3_4: 0.0020003607496619225
+- Wilcoxon符号秩检验PTSD_Ch4_3_6: 0.024645620957016945
+- Wilcoxon符号秩检验PTSD_Ch4_4_5: 0.03211137559264898
+- Wilcoxon符号秩检验PTSD_Ch5_2_3: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch5_4_6: 0.03575380891561508
+- Wilcoxon符号秩检验HC_Ch7_1_2: 0.016727693378925323
+- Wilcoxon符号秩检验HC_Ch7_2_6: 0.03170907497406006
+- Wilcoxon符号秩检验HC_Ch8_1_4: 0.0379299521446228
+- Wilcoxon符号秩检验HC_Ch8_1_5: 0.042608387768268585
+- Wilcoxon符号秩检验PTSD_Ch8_1_6: 0.011014155112206936
+- Wilcoxon符号秩检验HC_Ch8_2_4: 0.007629185914993286
+- Wilcoxon符号秩检验HC_Ch8_2_6: 0.01362369954586029
+- Wilcoxon符号秩检验HC_Ch8_3_5: 0.01025690883398056
+- Wilcoxon符号秩检验PTSD_Ch8_3_6: 0.033809719607234
+- Wilcoxon符号秩检验HC_Ch8_4_5: 0.0018673688173294067
+- Wilcoxon符号秩检验HC_Ch8_5_6: 0.0004249662160873413
+- Wilcoxon符号秩检验PTSD_Ch10_2_5: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch12_2_4: 0.01102352887392044
+- Wilcoxon符号秩检验HC_Ch12_2_6: 0.026356667280197144
+- Wilcoxon符号秩检验HC_Ch13_2_4: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch14_1_2: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch14_1_4: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch14_1_4: 0.0051764026284217834
+- Wilcoxon符号秩检验PTSD_Ch14_1_6: 0.023342357017099857
+- Wilcoxon符号秩检验HC_Ch14_1_6: 0.026356667280197144
+- Wilcoxon符号秩检验HC_Ch14_2_4: 0.0379299521446228
+- Wilcoxon符号秩检验HC_Ch14_3_4: 0.028050199151039124
+- Wilcoxon符号秩检验PTSD_Ch14_4_5: 0.028926550410687923
+- Wilcoxon符号秩检验HC_Ch14_4_5: 0.033681392669677734
+- Wilcoxon符号秩检验HC_Ch15_1_4: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch15_3_4: 0.01563260704278946
+- Wilcoxon符号秩检验HC_Ch15_3_5: 0.03170907497406006
+- Wilcoxon符号秩检验HC_Ch15_4_6: 0.0009657368063926697
+- Wilcoxon符号秩检验PTSD_Ch16_1_2: 0.0002865353599190712
+- Wilcoxon符号秩检验PTSD_Ch16_1_4: 9.619537740945816e-05
+- Wilcoxon符号秩检验PTSD_Ch16_1_5: 0.0021575288847088814
+- Wilcoxon符号秩检验PTSD_Ch16_1_6: 0.00010677427053451538
+- Wilcoxon符号秩检验PTSD_Ch16_2_3: 0.0002865353599190712
+- Wilcoxon符号秩检验HC_Ch16_2_3: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch16_2_5: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch16_2_6: 0.01362369954586029
+- Wilcoxon符号秩检验PTSD_Ch16_3_4: 3.177858889102936e-05
+- Wilcoxon符号秩检验PTSD_Ch16_3_6: 1.3811513781547546e-06
+- Wilcoxon符号秩检验PTSD_Ch16_4_5: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch16_4_6: 0.014598868787288666
+- Wilcoxon符号秩检验PTSD_Ch17_1_4: 0.03742977511137724
+- Wilcoxon符号秩检验PTSD_Ch17_2_3: 0.014004520140588284
+- Wilcoxon符号秩检验PTSD_Ch17_3_4: 0.028926550410687923
+- Wilcoxon符号秩检验PTSD_Ch17_3_6: 0.0012524444609880447
+- Wilcoxon符号秩检验HC_Ch17_4_6: 0.0024397894740104675
+- Wilcoxon符号秩检验HC_Ch20_1_3: 0.029833190143108368
+- Wilcoxon符号秩检验PTSD_Ch20_1_4: 0.03048440534621477
+- Wilcoxon符号秩检验HC_Ch20_1_4: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch20_1_5: 0.03170907497406006
+- Wilcoxon符号秩检验PTSD_Ch20_1_6: 0.045629615895450115
+- Wilcoxon符号秩检验HC_Ch20_1_6: 0.003160528838634491
+- Wilcoxon符号秩检验HC_Ch20_2_3: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch20_2_4: 0.0044362908229231834
+- Wilcoxon符号秩检验HC_Ch20_2_4: 0.01102352887392044
+- Wilcoxon符号秩检验HC_Ch20_2_5: 0.028050199151039124
+- Wilcoxon符号秩检验PTSD_Ch20_2_6: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch20_2_6: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch21_2_4: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch21_2_5: 0.024749115109443665
+- Wilcoxon符号秩检验HC_Ch21_3_5: 0.033681392669677734
+- Wilcoxon符号秩检验HC_Ch22_1_2: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch22_1_6: 0.014004520140588284
+- Wilcoxon符号秩检验PTSD_Ch22_5_6: 0.045629615895450115
+- Wilcoxon符号秩检验PTSD_Ch23_1_2: 0.0021575288847088814
+- Wilcoxon符号秩检验PTSD_Ch23_1_6: 0.023342357017099857
+- Wilcoxon符号秩检验PTSD_Ch24_2_3: 0.045629615895450115
+- Wilcoxon符号秩检验PTSD_Ch24_2_5: 0.0020003607496619225
+- Wilcoxon符号秩检验PTSD_Ch26_1_3: 0.008589296601712704
+- Wilcoxon符号秩检验PTSD_Ch26_1_6: 0.005441642366349697
+- Wilcoxon符号秩检验HC_Ch26_1_6: 0.019113145768642426
+- Wilcoxon符号秩检验HC_Ch26_2_3: 0.01362369954586029
+- Wilcoxon符号秩检验HC_Ch26_2_4: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch26_2_5: 0.020409412682056427
+- Wilcoxon符号秩检验PTSD_Ch26_2_6: 0.019774673506617546
+- Wilcoxon符号秩检验HC_Ch26_2_6: 0.01102352887392044
+- Wilcoxon符号秩检验HC_Ch26_3_6: 0.033681392669677734
+- Wilcoxon符号秩检验PTSD_Ch26_4_6: 0.016678825952112675
+- Wilcoxon符号秩检验HC_Ch27_1_4: 0.03170907497406006
+- Wilcoxon符号秩检验HC_Ch27_2_4: 0.0056031495332717896
+- Wilcoxon符号秩检验HC_Ch27_2_5: 0.02322421222925186
+- Wilcoxon符号秩检验HC_Ch27_2_6: 0.033681392669677734
+- Wilcoxon符号秩检验PTSD_Ch27_5_6: 0.03935616556555033
+- Wilcoxon符号秩检验PTSD_Ch28_1_3: 0.0033502401784062386
+- Wilcoxon符号秩检验PTSD_Ch28_1_4: 2.507772296667099e-05
+- Wilcoxon符号秩检验PTSD_Ch28_1_6: 1.1898577213287354e-05
+- Wilcoxon符号秩检验PTSD_Ch28_2_4: 0.0035971812903881073
+- Wilcoxon符号秩检验PTSD_Ch28_2_6: 0.04345365799963474
+- Wilcoxon符号秩检验PTSD_Ch28_4_5: 0.02743559330701828
+- Wilcoxon符号秩检验PTSD_Ch28_5_6: 0.0020003607496619225
+- Wilcoxon符号秩检验PTSD_Ch29_1_2: 0.022097455337643623
+- Wilcoxon符号秩检验PTSD_Ch29_1_4: 0.00806064996868372
+- Wilcoxon符号秩检验PTSD_Ch29_1_6: 0.0017160577699542046
+- Wilcoxon符号秩检验PTSD_Ch29_3_4: 0.04789368249475956
+- Wilcoxon符号秩检验PTSD_Ch30_1_2: 0.0014681089669466019
+- Wilcoxon符号秩检验HC_Ch30_1_2: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch30_1_6: 0.04789368249475956
+- Wilcoxon符号秩检验PTSD_Ch30_2_3: 0.005818215198814869
+- Wilcoxon符号秩检验PTSD_Ch30_2_5: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch30_4_6: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch32_2_3: 0.0056031495332717896
+- Wilcoxon符号秩检验PTSD_Ch32_2_4: 0.0355817461386323
+- Wilcoxon符号秩检验HC_Ch32_2_4: 0.004778154194355011
+- Wilcoxon符号秩检验HC_Ch32_2_5: 0.006548762321472168
+- Wilcoxon符号秩检验PTSD_Ch32_2_6: 0.016678825952112675
+- Wilcoxon符号秩检验HC_Ch32_2_6: 0.003738619387149811
+- Wilcoxon符号秩检验HC_Ch33_2_3: 0.01102352887392044
+- Wilcoxon符号秩检验HC_Ch33_2_4: 0.011838570237159729
+- Wilcoxon符号秩检验HC_Ch33_2_5: 0.028050199151039124
+- Wilcoxon符号秩检验HC_Ch33_2_6: 0.0011721327900886536
+- Wilcoxon符号秩检验PTSD_Ch34_2_4: 0.03048440534621477
+- Wilcoxon符号秩检验PTSD_Ch34_2_6: 0.011704971082508564
+- Wilcoxon符号秩检验PTSD_Ch34_3_4: 0.010358627885580063
+- Wilcoxon符号秩检验HC_Ch34_3_6: 0.016727693378925323
+- Wilcoxon符号秩检验PTSD_Ch34_5_6: 0.024645620957016945
+- Wilcoxon符号秩检验PTSD_Ch35_1_4: 0.01319857221096754
+- Wilcoxon符号秩检验PTSD_Ch35_3_4: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch36_2_3: 0.01563260704278946
+- Wilcoxon符号秩检验HC_Ch36_2_5: 0.04774715006351471
+- Wilcoxon符号秩检验PTSD_Ch38_1_2: 0.03048440534621477
+- Wilcoxon符号秩检验PTSD_Ch38_2_3: 0.008589296601712704
+- Wilcoxon符号秩检验HC_Ch38_2_3: 0.01102352887392044
+- Wilcoxon符号秩检验PTSD_Ch38_2_4: 0.008589296601712704
+- Wilcoxon符号秩检验PTSD_Ch38_2_5: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch38_2_5: 0.014598868787288666
+- Wilcoxon符号秩检验PTSD_Ch38_2_6: 0.004751680418848991
+- Wilcoxon符号秩检验HC_Ch38_2_6: 0.003738619387149811
+- Wilcoxon符号秩检验HC_Ch38_3_4: 0.007629185914993286
+- Wilcoxon符号秩检验HC_Ch38_4_5: 0.020409412682056427
+- Wilcoxon符号秩检验HC_Ch38_4_6: 0.0004729032516479492
+- Wilcoxon符号秩检验HC_Ch39_4_6: 0.01362369954586029
+- Wilcoxon符号秩检验PTSD_Ch40_2_6: 0.019774673506617546
+- Wilcoxon符号秩检验HC_Ch40_3_4: 0.01563260704278946
+- Wilcoxon符号秩检验PTSD_Ch40_4_6: 0.04789368249475956
+- Wilcoxon符号秩检验HC_Ch41_4_6: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch42_1_2: 0.02743559330701828
+- Wilcoxon符号秩检验PTSD_Ch43_2_3: 0.04345365799963474
+- Wilcoxon符号秩检验HC_Ch44_1_2: 0.01025690883398056
+- Wilcoxon符号秩检验HC_Ch44_2_3: 0.006548762321472168
+- Wilcoxon符号秩检验HC_Ch44_2_4: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch44_2_5: 0.019113145768642426
+- Wilcoxon符号秩检验HC_Ch44_2_6: 0.0005833879113197327
+- Wilcoxon符号秩检验HC_Ch45_4_5: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch47_3_4: 0.016678825952112675
+- Wilcoxon符号秩检验HC_Ch47_3_4: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch47_3_6: 0.005086471326649189
+- Wilcoxon符号秩检验PTSD_Ch47_4_6: 0.022097455337643623
+- Wilcoxon符号秩检验PTSD_Ch47_5_6: 0.04345365799963474
+- Wilcoxon符号秩检验PTSD_Ch48_3_5: 0.03742977511137724
+##### dxy
+- Wilcoxon符号秩检验PTSD_Ch2_1_2: 0.03048440534621477
+- Wilcoxon符号秩检验HC_Ch2_1_2: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch2_1_4: 0.012432587333023548
+- Wilcoxon符号秩检验HC_Ch2_1_4: 0.001416526734828949
+- Wilcoxon符号秩检验PTSD_Ch2_1_6: 0.04345365799963474
+- Wilcoxon符号秩检验HC_Ch2_1_6: 0.003738619387149811
+- Wilcoxon符号秩检验PTSD_Ch2_2_5: 0.0021575288847088814
+- Wilcoxon符号秩检验HC_Ch2_2_5: 0.016727693378925323
+- Wilcoxon符号秩检验HC_Ch2_3_4: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch2_3_6: 0.042608387768268585
+- Wilcoxon符号秩检验PTSD_Ch2_4_5: 0.0011555561795830727
+- Wilcoxon符号秩检验HC_Ch2_4_5: 0.0004249662160873413
+- Wilcoxon符号秩检验PTSD_Ch2_5_6: 0.004751680418848991
+- Wilcoxon符号秩检验HC_Ch2_5_6: 1.765042543411255e-05
+- Wilcoxon符号秩检验HC_Ch3_1_4: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch3_2_3: 0.040213532745838165
+- Wilcoxon符号秩检验HC_Ch3_2_5: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch3_3_4: 0.024749115109443665
+- Wilcoxon符号秩检验HC_Ch3_4_5: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch3_5_6: 0.03170907497406006
+- Wilcoxon符号秩检验PTSD_Ch4_1_2: 0.033809719607234
+- Wilcoxon符号秩检验PTSD_Ch4_2_3: 6.266403943300247e-05
+- Wilcoxon符号秩检验HC_Ch4_2_3: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch4_2_5: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch4_2_5: 0.003738619387149811
+- Wilcoxon符号秩检验PTSD_Ch4_3_4: 0.00045317597687244415
+- Wilcoxon符号秩检验PTSD_Ch4_3_6: 0.02600933238863945
+- Wilcoxon符号秩检验PTSD_Ch4_4_5: 0.024645620957016945
+- Wilcoxon符号秩检验HC_Ch4_4_5: 0.040213532745838165
+- Wilcoxon符号秩检验HC_Ch5_2_3: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch5_2_5: 0.006060026586055756
+- Wilcoxon符号秩检验HC_Ch5_2_6: 0.01362369954586029
+- Wilcoxon符号秩检验HC_Ch5_4_5: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch5_4_6: 0.006060026586055756
+- Wilcoxon符号秩检验HC_Ch6_2_3: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch8_1_5: 0.04774715006351471
+- Wilcoxon符号秩检验PTSD_Ch8_1_6: 0.014852074906229973
+- Wilcoxon符号秩检验HC_Ch8_3_5: 0.01362369954586029
+- Wilcoxon符号秩检验HC_Ch8_4_5: 0.0009657368063926697
+- Wilcoxon符号秩检验HC_Ch8_5_6: 0.0007162094116210938
+- Wilcoxon符号秩检验PTSD_Ch10_2_5: 0.008589296601712704
+- Wilcoxon符号秩检验HC_Ch12_1_4: 0.0379299521446228
+- Wilcoxon符号秩检验HC_Ch12_2_6: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch13_1_2: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch13_2_4: 0.028050199151039124
+- Wilcoxon符号秩检验HC_Ch13_2_6: 0.03170907497406006
+- Wilcoxon符号秩检验HC_Ch13_3_4: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch14_1_2: 0.028926550410687923
+- Wilcoxon符号秩检验HC_Ch14_1_2: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch14_1_4: 0.011704971082508564
+- Wilcoxon符号秩检验HC_Ch14_1_4: 0.006060026586055756
+- Wilcoxon符号秩检验HC_Ch14_1_5: 0.026356667280197144
+- Wilcoxon符号秩检验PTSD_Ch14_1_6: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch14_1_6: 0.007071197032928467
+- Wilcoxon符号秩检验HC_Ch14_3_4: 0.019113145768642426
+- Wilcoxon符号秩检验PTSD_Ch14_4_5: 0.004751680418848991
+- Wilcoxon符号秩检验HC_Ch15_1_4: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch15_2_3: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch15_3_4: 0.006548762321472168
+- Wilcoxon符号秩检验HC_Ch15_3_5: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch15_3_6: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch15_4_6: 0.01102352887392044
+- Wilcoxon符号秩检验PTSD_Ch16_1_2: 0.00023703649640083313
+- Wilcoxon符号秩检验PTSD_Ch16_1_4: 0.00016037467867136002
+- Wilcoxon符号秩检验PTSD_Ch16_1_5: 0.0004954077303409576
+- Wilcoxon符号秩检验PTSD_Ch16_1_6: 0.000131131149828434
+- Wilcoxon符号秩检验PTSD_Ch16_2_3: 8.656829595565796e-05
+- Wilcoxon符号秩检验HC_Ch16_2_5: 0.03170907497406006
+- Wilcoxon符号秩检验PTSD_Ch16_3_4: 5.613267421722412e-05
+- Wilcoxon符号秩检验PTSD_Ch16_3_6: 5.317851901054382e-06
+- Wilcoxon符号秩检验PTSD_Ch17_1_2: 0.045629615895450115
+- Wilcoxon符号秩检验PTSD_Ch17_1_4: 0.0355817461386323
+- Wilcoxon符号秩检验PTSD_Ch17_1_6: 0.0038599325343966484
+- Wilcoxon符号秩检验PTSD_Ch17_2_3: 0.004751680418848991
+- Wilcoxon符号秩检验PTSD_Ch17_3_4: 0.03211137559264898
+- Wilcoxon符号秩检验PTSD_Ch17_3_6: 0.0013564806431531906
+- Wilcoxon符号秩检验HC_Ch17_4_6: 0.028050199151039124
+- Wilcoxon符号秩检验HC_Ch18_4_6: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch20_1_4: 0.02600933238863945
+- Wilcoxon符号秩检验HC_Ch20_1_4: 0.021778732538223267
+- Wilcoxon符号秩检验HC_Ch20_1_6: 0.004778154194355011
+- Wilcoxon符号秩检验PTSD_Ch20_2_4: 0.0355817461386323
+- Wilcoxon符号秩检验HC_Ch20_2_4: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch20_2_5: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch20_2_6: 0.021778732538223267
+- Wilcoxon符号秩检验HC_Ch21_2_4: 0.011838570237159729
+- Wilcoxon符号秩检验HC_Ch21_2_5: 0.020409412682056427
+- Wilcoxon符号秩检验HC_Ch21_2_6: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch22_1_2: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch22_1_2: 0.042608387768268585
+- Wilcoxon符号秩检验PTSD_Ch22_1_6: 0.022097455337643623
+- Wilcoxon符号秩检验PTSD_Ch22_5_6: 0.04345365799963474
+- Wilcoxon符号秩检验PTSD_Ch23_1_2: 0.0011555561795830727
+- Wilcoxon符号秩检验PTSD_Ch23_1_4: 0.01319857221096754
+- Wilcoxon符号秩检验PTSD_Ch23_1_6: 0.0031182998791337013
+- Wilcoxon符号秩检验PTSD_Ch24_2_5: 0.00806064996868372
+- Wilcoxon符号秩检验PTSD_Ch26_1_3: 0.01319857221096754
+- Wilcoxon符号秩检验PTSD_Ch26_1_6: 0.005441642366349697
+- Wilcoxon符号秩检验HC_Ch26_1_6: 0.009536407887935638
+- Wilcoxon符号秩检验HC_Ch26_2_3: 0.02322421222925186
+- Wilcoxon符号秩检验HC_Ch26_2_4: 0.0020434409379959106
+- Wilcoxon符号秩检验HC_Ch26_2_5: 0.019113145768642426
+- Wilcoxon符号秩检验PTSD_Ch26_2_6: 0.04789368249475956
+- Wilcoxon符号秩检验HC_Ch26_2_6: 0.008224666118621826
+- Wilcoxon符号秩检验HC_Ch27_2_3: 0.02322421222925186
+- Wilcoxon符号秩检验HC_Ch27_2_4: 0.0056031495332717896
+- Wilcoxon符号秩检验HC_Ch27_2_5: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch27_2_6: 0.04774715006351471
+- Wilcoxon符号秩检验PTSD_Ch28_1_3: 0.0031182998791337013
+- Wilcoxon符号秩检验PTSD_Ch28_1_4: 3.570038825273514e-05
+- Wilcoxon符号秩检验PTSD_Ch28_1_6: 9.162351489067078e-06
+- Wilcoxon符号秩检验PTSD_Ch28_2_4: 0.0023254938423633575
+- Wilcoxon符号秩检验PTSD_Ch28_2_6: 0.03742977511137724
+- Wilcoxon符号秩检验PTSD_Ch28_4_5: 0.020908888429403305
+- Wilcoxon符号秩检验PTSD_Ch28_5_6: 0.007087168283760548
+- Wilcoxon符号秩检验PTSD_Ch29_1_2: 0.014004520140588284
+- Wilcoxon符号秩检验PTSD_Ch29_1_4: 0.04345365799963474
+- Wilcoxon符号秩检验PTSD_Ch29_1_6: 0.0012524444609880447
+- Wilcoxon符号秩检验PTSD_Ch30_1_2: 0.0009815162047743797
+- Wilcoxon符号秩检验HC_Ch30_1_2: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch30_1_6: 0.04789368249475956
+- Wilcoxon符号秩检验PTSD_Ch30_2_3: 0.01319857221096754
+- Wilcoxon符号秩检验PTSD_Ch30_2_5: 0.04789368249475956
+- Wilcoxon符号秩检验HC_Ch30_3_5: 0.024749115109443665
+- Wilcoxon符号秩检验HC_Ch32_2_3: 0.008224666118621826
+- Wilcoxon符号秩检验PTSD_Ch32_2_4: 0.03211137559264898
+- Wilcoxon符号秩检验HC_Ch32_2_4: 0.0009657368063926697
+- Wilcoxon符号秩检验HC_Ch32_2_5: 0.011838570237159729
+- Wilcoxon符号秩检验PTSD_Ch32_2_6: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch32_2_6: 0.0017047896981239319
+- Wilcoxon符号秩检验HC_Ch33_2_3: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch33_2_4: 0.004060737788677216
+- Wilcoxon符号秩检验HC_Ch33_2_5: 0.024749115109443665
+- Wilcoxon符号秩检验HC_Ch33_2_6: 0.001416526734828949
+- Wilcoxon符号秩检验PTSD_Ch34_2_4: 0.04136332217603922
+- Wilcoxon符号秩检验PTSD_Ch34_2_6: 0.0355817461386323
+- Wilcoxon符号秩检验PTSD_Ch34_3_4: 0.016678825952112675
+- Wilcoxon符号秩检验PTSD_Ch34_5_6: 0.03211137559264898
+- Wilcoxon符号秩检验HC_Ch35_1_2: 0.04774715006351471
+- Wilcoxon符号秩检验PTSD_Ch35_1_4: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch35_1_6: 0.0379299521446228
+- Wilcoxon符号秩检验HC_Ch35_4_6: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch36_2_3: 0.008859716355800629
+- Wilcoxon符号秩检验HC_Ch36_2_4: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch37_1_3: 0.015742935240268707
+- Wilcoxon符号秩检验PTSD_Ch38_1_2: 0.006217258051037788
+- Wilcoxon符号秩检验HC_Ch38_1_2: 0.003738619387149811
+- Wilcoxon符号秩检验PTSD_Ch38_2_3: 0.01869285199791193
+- Wilcoxon符号秩检验HC_Ch38_2_3: 0.0024397894740104675
+- Wilcoxon符号秩检验PTSD_Ch38_2_4: 0.00914760958403349
+- Wilcoxon符号秩检验HC_Ch38_2_4: 0.033681392669677734
+- Wilcoxon符号秩检验HC_Ch38_2_5: 0.01563260704278946
+- Wilcoxon符号秩检验PTSD_Ch38_2_6: 0.015742935240268707
+- Wilcoxon符号秩检验HC_Ch38_2_6: 0.0056031495332717896
+- Wilcoxon符号秩检验HC_Ch38_3_4: 0.006060026586055756
+- Wilcoxon符号秩检验HC_Ch38_4_6: 0.0015547871589660645
+- Wilcoxon符号秩检验HC_Ch39_4_6: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch40_1_4: 0.026356667280197144
+- Wilcoxon符号秩检验PTSD_Ch40_2_6: 0.01319857221096754
+- Wilcoxon符号秩检验HC_Ch40_3_4: 0.01102352887392044
+- Wilcoxon符号秩检验PTSD_Ch40_4_6: 0.024645620957016945
+- Wilcoxon符号秩检验HC_Ch41_3_4: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch42_1_2: 0.0355817461386323
+- Wilcoxon符号秩检验HC_Ch44_2_3: 0.0024397894740104675
+- Wilcoxon符号秩检验HC_Ch44_2_4: 0.008859716355800629
+- Wilcoxon符号秩检验PTSD_Ch44_2_6: 0.033809719607234
+- Wilcoxon符号秩检验HC_Ch44_2_6: 0.0017047896981239319
+- Wilcoxon符号秩检验PTSD_Ch45_2_6: 0.04789368249475956
+- Wilcoxon符号秩检验PTSD_Ch47_2_3: 0.04136332217603922
+- Wilcoxon符号秩检验PTSD_Ch47_3_4: 0.0066398633643984795
+- Wilcoxon符号秩检验HC_Ch47_3_4: 0.0451183095574379
+- Wilcoxon符号秩检验PTSD_Ch47_3_6: 0.012432587333023548
+- Wilcoxon符号秩检验PTSD_Ch47_4_6: 0.020908888429403305
+- Wilcoxon符号秩检验PTSD_Ch47_5_6: 0.023342357017099857
+- Wilcoxon符号秩检验PTSD_Ch48_3_5: 0.04345365799963474
+##### total
+- Wilcoxon符号秩检验PTSD_Ch1_1_4: 0.033809719607234
+- Wilcoxon符号秩检验PTSD_Ch1_3_4: 0.0066398633643984795
+- Wilcoxon符号秩检验HC_Ch2_5_6: 0.0024397894740104675
+- Wilcoxon符号秩检验HC_Ch3_1_3: 0.009536407887935638
+- Wilcoxon符号秩检验PTSD_Ch3_2_4: 0.022097455337643623
+- Wilcoxon符号秩检验HC_Ch3_3_5: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch4_1_2: 0.0033502401784062386
+- Wilcoxon符号秩检验HC_Ch4_1_3: 0.04774715006351471
+- Wilcoxon符号秩检验PTSD_Ch4_1_4: 0.012432587333023548
+- Wilcoxon符号秩检验PTSD_Ch4_1_6: 0.00914760958403349
+- Wilcoxon符号秩检验PTSD_Ch4_2_3: 0.005086471326649189
+- Wilcoxon符号秩检验PTSD_Ch4_2_4: 0.04789368249475956
+- Wilcoxon符号秩检验PTSD_Ch4_2_5: 0.03742977511137724
+- Wilcoxon符号秩检验PTSD_Ch4_3_4: 0.00806064996868372
+- Wilcoxon符号秩检验PTSD_Ch4_3_6: 0.024645620957016945
+- Wilcoxon符号秩检验PTSD_Ch5_2_3: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch6_3_5: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch7_1_2: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch7_2_6: 0.0015547871589660645
+- Wilcoxon符号秩检验HC_Ch8_1_2: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch8_1_5: 0.040213532745838165
+- Wilcoxon符号秩检验HC_Ch8_2_3: 0.019113145768642426
+- Wilcoxon符号秩检验HC_Ch8_2_4: 0.00027351081371307373
+- Wilcoxon符号秩检验HC_Ch8_2_6: 0.0008751451969146729
+- Wilcoxon符号秩检验HC_Ch8_3_5: 0.012704446911811829
+- Wilcoxon符号秩检验PTSD_Ch8_3_6: 0.033809719607234
+- Wilcoxon符号秩检验HC_Ch8_4_5: 0.004406772553920746
+- Wilcoxon符号秩检验HC_Ch8_5_6: 0.0015547871589660645
+- Wilcoxon符号秩检验HC_Ch10_1_5: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch12_1_5: 0.016727693378925323
+- Wilcoxon符号秩检验HC_Ch12_2_4: 0.02322421222925186
+- Wilcoxon符号秩检验HC_Ch12_2_6: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch13_1_5: 0.0017160577699542046
+- Wilcoxon符号秩检验PTSD_Ch13_1_6: 0.022097455337643623
+- Wilcoxon符号秩检验PTSD_Ch13_2_5: 0.045629615895450115
+- Wilcoxon符号秩检验HC_Ch14_1_4: 0.008859716355800629
+- Wilcoxon符号秩检验HC_Ch14_2_4: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch14_4_5: 0.02322421222925186
+- Wilcoxon符号秩检验HC_Ch15_1_5: 0.019113145768642426
+- Wilcoxon符号秩检验HC_Ch15_4_6: 0.03170907497406006
+- Wilcoxon符号秩检验PTSD_Ch16_1_2: 0.007087168283760548
+- Wilcoxon符号秩检验PTSD_Ch16_1_3: 0.01869285199791193
+- Wilcoxon符号秩检验PTSD_Ch16_1_4: 0.005441642366349697
+- Wilcoxon符号秩检验PTSD_Ch16_1_6: 0.00973692536354065
+- Wilcoxon符号秩检验PTSD_Ch16_2_3: 0.012432587333023548
+- Wilcoxon符号秩检验PTSD_Ch16_2_5: 0.0355817461386323
+- Wilcoxon符号秩检验HC_Ch16_2_6: 0.004060737788677216
+- Wilcoxon符号秩检验PTSD_Ch16_3_4: 0.04345365799963474
+- Wilcoxon符号秩检验PTSD_Ch16_3_6: 0.023342357017099857
+- Wilcoxon符号秩检验PTSD_Ch16_4_5: 0.03048440534621477
+- Wilcoxon符号秩检验HC_Ch16_4_6: 0.0012892335653305054
+- Wilcoxon符号秩检验HC_Ch17_4_6: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch19_2_4: 0.033681392669677734
+- Wilcoxon符号秩检验PTSD_Ch20_1_4: 0.04136332217603922
+- Wilcoxon符号秩检验HC_Ch20_1_4: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch20_2_3: 0.007087168283760548
+- Wilcoxon符号秩检验HC_Ch20_2_3: 0.021778732538223267
+- Wilcoxon符号秩检验PTSD_Ch20_2_4: 0.0012524444609880447
+- Wilcoxon符号秩检验HC_Ch20_2_4: 0.006060026586055756
+- Wilcoxon符号秩检验PTSD_Ch20_2_5: 0.0029005883261561394
+- Wilcoxon符号秩检验HC_Ch20_2_5: 0.021778732538223267
+- Wilcoxon符号秩检验PTSD_Ch20_2_6: 0.011014155112206936
+- Wilcoxon符号秩检验HC_Ch20_2_6: 0.014598868787288666
+- Wilcoxon符号秩检验HC_Ch21_2_5: 0.029833190143108368
+- Wilcoxon符号秩检验HC_Ch21_3_5: 0.003160528838634491
+- Wilcoxon符号秩检验PTSD_Ch22_2_6: 0.045629615895450115
+- Wilcoxon符号秩检验PTSD_Ch23_3_4: 0.024645620957016945
+- Wilcoxon符号秩检验PTSD_Ch24_2_3: 0.014004520140588284
+- Wilcoxon符号秩检验PTSD_Ch24_2_4: 0.03211137559264898
+- Wilcoxon符号秩检验PTSD_Ch24_2_5: 0.007560359314084053
+- Wilcoxon符号秩检验PTSD_Ch24_2_6: 0.023342357017099857
+- Wilcoxon符号秩检验PTSD_Ch25_1_4: 0.014004520140588284
+- Wilcoxon符号秩检验PTSD_Ch25_2_4: 0.007087168283760548
+- Wilcoxon符号秩检验PTSD_Ch25_3_4: 0.008589296601712704
+- Wilcoxon符号秩检验PTSD_Ch25_4_5: 0.011704971082508564
+- Wilcoxon符号秩检验PTSD_Ch25_4_6: 0.0023254938423633575
+- Wilcoxon符号秩检验HC_Ch25_4_6: 0.001416526734828949
+- Wilcoxon符号秩检验PTSD_Ch26_1_6: 0.016678825952112675
+- Wilcoxon符号秩检验HC_Ch26_2_5: 0.024749115109443665
+- Wilcoxon符号秩检验PTSD_Ch26_2_6: 0.014004520140588284
+- Wilcoxon符号秩检验HC_Ch26_3_6: 0.03575380891561508
+- Wilcoxon符号秩检验PTSD_Ch26_4_5: 0.015742935240268707
+- Wilcoxon符号秩检验PTSD_Ch26_4_6: 0.0014681089669466019
+- Wilcoxon符号秩检验HC_Ch27_2_4: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch27_3_6: 0.040213532745838165
+- Wilcoxon符号秩检验PTSD_Ch28_2_5: 0.0355817461386323
+- Wilcoxon符号秩检验PTSD_Ch28_2_6: 0.03935616556555033
+- Wilcoxon符号秩检验PTSD_Ch30_1_2: 0.03048440534621477
+- Wilcoxon符号秩检验HC_Ch30_1_2: 0.040213532745838165
+- Wilcoxon符号秩检验HC_Ch30_1_6: 0.028050199151039124
+- Wilcoxon符号秩检验PTSD_Ch30_2_3: 0.022097455337643623
+- Wilcoxon符号秩检验PTSD_Ch30_2_5: 0.020908888429403305
+- Wilcoxon符号秩检验HC_Ch30_2_5: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch30_3_6: 0.007629185914993286
+- Wilcoxon符号秩检验PTSD_Ch30_5_6: 0.012432587333023548
+- Wilcoxon符号秩检验HC_Ch30_5_6: 0.033681392669677734
+- Wilcoxon符号秩检验HC_Ch32_2_3: 0.0379299521446228
+- Wilcoxon符号秩检验PTSD_Ch32_2_4: 0.0355817461386323
+- Wilcoxon符号秩检验HC_Ch32_2_5: 0.021778732538223267
+- Wilcoxon符号秩检验PTSD_Ch32_2_6: 0.023342357017099857
+- Wilcoxon符号秩检验HC_Ch33_2_3: 0.03575380891561508
+- Wilcoxon符号秩检验HC_Ch33_2_6: 0.006548762321472168
+- Wilcoxon符号秩检验PTSD_Ch34_1_2: 0.02743559330701828
+- Wilcoxon符号秩检验PTSD_Ch34_2_4: 0.014852074906229973
+- Wilcoxon符号秩检验PTSD_Ch34_3_4: 0.010358627885580063
+- Wilcoxon符号秩检验HC_Ch34_3_6: 0.009536407887935638
+- Wilcoxon符号秩检验PTSD_Ch35_3_4: 0.019774673506617546
+- Wilcoxon符号秩检验PTSD_Ch35_3_6: 0.03742977511137724
+- Wilcoxon符号秩检验PTSD_Ch35_4_5: 0.024645620957016945
+- Wilcoxon符号秩检验HC_Ch36_2_3: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch36_2_5: 0.026356667280197144
+- Wilcoxon符号秩检验PTSD_Ch36_4_5: 0.045629615895450115
+- Wilcoxon符号秩检验HC_Ch37_1_5: 0.033681392669677734
+- Wilcoxon符号秩检验HC_Ch37_4_5: 0.002901986241340637
+- Wilcoxon符号秩检验HC_Ch37_4_6: 0.017886914312839508
+- Wilcoxon符号秩检验HC_Ch38_2_5: 0.03170907497406006
+- Wilcoxon符号秩检验PTSD_Ch38_2_6: 0.0018533961847424507
+- Wilcoxon符号秩检验PTSD_Ch38_3_6: 0.03048440534621477
+- Wilcoxon符号秩检验HC_Ch38_4_5: 0.0012892335653305054
+- Wilcoxon符号秩检验HC_Ch38_4_6: 0.0004729032516479492
+- Wilcoxon符号秩检验HC_Ch39_1_5: 0.04774715006351471
+- Wilcoxon符号秩检验HC_Ch39_1_6: 0.028050199151039124
+- Wilcoxon符号秩检验HC_Ch39_3_5: 0.0379299521446228
+- Wilcoxon符号秩检验HC_Ch39_3_6: 0.042608387768268585
+- Wilcoxon符号秩检验HC_Ch39_4_6: 0.01362369954586029
+- Wilcoxon符号秩检验HC_Ch40_1_4: 0.0451183095574379
+- Wilcoxon符号秩检验HC_Ch40_4_6: 0.040213532745838165
+- Wilcoxon符号秩检验HC_Ch41_4_6: 0.024749115109443665
+- Wilcoxon符号秩检验PTSD_Ch42_4_6: 0.03742977511137724
+- Wilcoxon符号秩检验PTSD_Ch43_2_6: 0.02743559330701828
+- Wilcoxon符号秩检验PTSD_Ch44_2_4: 0.015742935240268707
+- Wilcoxon符号秩检验HC_Ch44_2_4: 0.008859716355800629
+- Wilcoxon符号秩检验HC_Ch44_2_6: 0.0009657368063926697
+- Wilcoxon符号秩检验PTSD_Ch45_1_4: 0.00973692536354065
+- Wilcoxon符号秩检验PTSD_Ch45_3_4: 0.045629615895450115
+- Wilcoxon符号秩检验HC_Ch45_4_5: 0.017886914312839508
+- Wilcoxon符号秩检验HC_Ch45_5_6: 0.01563260704278946
+- Wilcoxon符号秩检验PTSD_Ch46_1_2: 0.03211137559264898
+- Wilcoxon符号秩检验PTSD_Ch46_2_4: 0.017661521211266518
+- Wilcoxon符号秩检验PTSD_Ch46_3_4: 0.02743559330701828
+- Wilcoxon符号秩检验HC_Ch47_4_5: 0.021778732538223267
 
-##### Mann-Whitney U 检验
-######  oxy
-channel 3 period 2 Mann-Whitney U 检验:  p value is 0.016498739751220317
-channel 6 period 6 Mann-Whitney U 检验:  p value is 0.04371314983512984
-channel 13 period 2 Mann-Whitney U 检验:  p value is 0.02729580063665383
-channel 15 period 6 Mann-Whitney U 检验:  p value is 0.00517611014376219
-channel 21 period 6 Mann-Whitney U 检验:  p value is 0.03697151790711806
-channel 22 period 3 Mann-Whitney U 检验:  p value is 0.01898852044073278
-channel 27 period 6 Mann-Whitney U 检验:  p value is 0.023871134132462366
-channel 28 period 6 Mann-Whitney U 检验:  p value is 0.014300411609102613
-channel 29 period 6 Mann-Whitney U 检验:  p value is 0.04022268332418644
-channel 30 period 6 Mann-Whitney U 检验:  p value is 0.02082553453578386
-channel 36 period 6 Mann-Whitney U 检验:  p value is 0.041937191514878555
-channel 38 period 4 Mann-Whitney U 检验:  p value is 0.02852789436665721
-channel 41 period 4 Mann-Whitney U 检验:  p value is 0.041937191514878555
-channel 43 period 3 Mann-Whitney U 检验:  p value is 0.04371314983512984
-######  dxy
-channel 1 period 2 Mann-Whitney U 检验:  p value is 0.02852789436665721
-channel 2 period 2 Mann-Whitney U 检验:  p value is 0.041937191514878555
-channel 3 period 2 Mann-Whitney U 检验:  p value is 0.01898852044073278
-channel 6 period 6 Mann-Whitney U 检验:  p value is 0.023871134132462366
-channel 13 period 2 Mann-Whitney U 检验:  p value is 0.00965007342344554
-channel 15 period 6 Mann-Whitney U 检验:  p value is 0.007875304203972543
-channel 22 period 3 Mann-Whitney U 检验:  p value is 0.011773050976716442
-channel 27 period 6 Mann-Whitney U 检验:  p value is 0.011773050976716442
-channel 28 period 6 Mann-Whitney U 检验:  p value is 0.013627347915435236
-channel 29 period 6 Mann-Whitney U 检验:  p value is 0.022815572002900245
-channel 30 period 6 Mann-Whitney U 检验:  p value is 0.01898852044073278
-######  total
-channel 3 period 2 Mann-Whitney U 检验:  p value is 0.02729580063665383
-channel 3 period 3 Mann-Whitney U 检验:  p value is 0.035431665771366756
-channel 12 period 2 Mann-Whitney U 检验:  p value is 0.02610989811320674
-channel 15 period 6 Mann-Whitney U 检验:  p value is 0.023871134132462366
-channel 21 period 3 Mann-Whitney U 检验:  p value is 0.04942633780618268
-channel 24 period 3 Mann-Whitney U 检验:  p value is 0.01812433811278471
-channel 31 period 4 Mann-Whitney U 检验:  p value is 0.04371314983512984
-channel 35 period 6 Mann-Whitney U 检验:  p value is 0.007480027701157544
-channel 36 period 2 Mann-Whitney U 检验:  p value is 0.008722429155736146
-channel 36 period 4 Mann-Whitney U 检验:  p value is 0.023871134132462366
-channel 36 period 6 Mann-Whitney U 检验:  p value is 0.02852789436665721
-channel 38 period 4 Mann-Whitney U 检验:  p value is 0.004905474396981581
-channel 39 period 4 Mann-Whitney U 检验:  p value is 0.035431665771366756
-channel 41 period 4 Mann-Whitney U 检验:  p value is 0.011773050976716442
-channel 42 period 4 Mann-Whitney U 检验:  p value is 0.04555220949929296
-#### 插值后
-##### t检验
-######  oxy
-channel 2 period 2 t 检验:  p value is 0.03790910141082163
-channel 3 period 2 t 检验:  p value is 0.02062138400855481
-channel 7 period 2 t 检验:  p value is 0.03444607385396066
-channel 14 period 2 t 检验:  p value is 0.041233604337232534
-channel 15 period 3 t 检验:  p value is 0.04925639690408461
-channel 15 period 6 t 检验:  p value is 0.002227478549276086
-channel 17 period 6 t 检验:  p value is 0.04212406718885562
-channel 21 period 1 t 检验:  p value is 0.03170763571663881
-channel 21 period 6 t 检验:  p value is 0.03404328104028488
-channel 22 period 6 t 检验:  p value is 0.0496851466535464
-channel 23 period 6 t 检验:  p value is 0.019216676584281965
-channel 24 period 1 t 检验:  p value is 0.03993232934018984
-channel 24 period 2 t 检验:  p value is 0.01830440764813265
-channel 27 period 2 t 检验:  p value is 0.03835928968349069
-channel 27 period 6 t 检验:  p value is 0.03311999306748099
-channel 28 period 1 t 检验:  p value is 0.027624768580393772
-channel 30 period 2 t 检验:  p value is 0.03860225657022345
-channel 30 period 6 t 检验:  p value is 0.026976392926827124
-channel 31 period 4 t 检验:  p value is 0.036652888373196295
-channel 36 period 2 t 检验:  p value is 0.023668786502818354
-channel 38 period 4 t 检验:  p value is 0.0040888325325557865
-channel 42 period 2 t 检验:  p value is 0.03624116031879717
-channel 42 period 4 t 检验:  p value is 0.0156511549018692
-channel 43 period 3 t 检验:  p value is 0.01173982323525546
-######  dxy
-######  total
-##### Mann-Whitney U 检验
-######  oxy
-######  dxy
-######  total
 ## 一般线性模型
 ### 原理
 ### 特征提取步骤
@@ -154,8 +621,137 @@ channel 43 period 3 t 检验:  p value is 0.01173982323525546
 	- 将Onset_and_Length.xlsx中对应信息填入design_inf.xlsx
 	- 更新HC_Design_Inf.mat和PTSD_Design_Inf.mat
 - 生成对应beta值：Task fNIRS——Individual-level Analysis
-### 分析
+- ![image.png](https://s2.loli.net/2023/12/05/sEOQU6VMl24mC7H.png)
+- 使用ReadMatGLM生成result.xlsx存放在NIRS_KIT_Individual_Analysis文件夹中
+- 使用ReadGLM进行result.xlsx读取，并对每个特征进行Shapiro-Wilk 测试判断是否符合正态分布，符合正态分布进行独立样本 t 检验，否则进行Mann-Whitney U 检验。
 
+### 差异（组间）
+#### 独立样本 t 检验
+##### oxy
+- Oxy\beta_1\value_Channel22 pvalue is: 0.04131627889169518
+- Oxy\beta_1\value_Channel41 pvalue is: 0.047003616136328384
+- Oxy\beta_2\value_Channel22 pvalue is: 0.025487786165354936
+- Oxy\beta_4\value_Channel4 pvalue is: 0.030661436160007417
+- Oxy\beta_4\value_Channel5 pvalue is: 0.02937451465493468
+- Oxy\beta_4\value_Channel12 pvalue is: 0.007826715161213528
+- Oxy\beta_4\value_Channel19 pvalue is: 0.029176612394957505
+- Oxy\beta_4\value_Channel22 pvalue is: 0.0030187025432586593
+- Oxy\beta_4\value_Channel23 pvalue is: 0.013807738921421535
+- Oxy\beta_4\value_Channel35 pvalue is: 0.018083672782067767
+- Oxy\beta_4\value_Channel46 pvalue is: 0.039335737470389015
+- Oxy\beta_5\value_Channel14 pvalue is: 0.004671922088026179
+- Oxy\beta_5\value_Channel19 pvalue is: 0.007233260377855494
+- Oxy\beta_5\value_Channel20 pvalue is: 0.01902242682655784
+- Oxy\beta_5\value_Channel22 pvalue is: 0.007681664152538641
+- Oxy\beta_5\value_Channel29 pvalue is: 0.03912072613245217
+##### dxy
+- Dxy\beta_1\value_Channel17 pvalue is: 0.014599282854373096
+- Dxy\beta_6\value_Channel43 pvalue is: 0.029618215095634184
+##### total
+- Total\beta_4\value_Channel34 pvalue is: 0.00913458491763327
+- Total\beta_4\value_Channel46 pvalue is: 0.002845112890940058
+- Total\beta_5\value_Channel32 pvalue is: 0.0035774249502344706
+#### Mann-Whitney U 检验
+##### oxy
+- Oxy\beta_1\value_Channel48 mannwhitneyu_pvalue is: 0.03108911669982851
+- Oxy\beta_2\value_Channel4 mannwhitneyu_pvalue is: 0.016710857427791555
+- Oxy\beta_2\value_Channel11 mannwhitneyu_pvalue is: 0.04791500006033972
+- Oxy\beta_2\value_Channel21 mannwhitneyu_pvalue is: 0.020399294461399622
+- Oxy\beta_2\value_Channel23 mannwhitneyu_pvalue is: 0.03226494270786646
+- Oxy\beta_2\value_Channel24 mannwhitneyu_pvalue is: 0.018846352086967593
+- Oxy\beta_2\value_Channel30 mannwhitneyu_pvalue is: 0.025746305164177884
+- Oxy\beta_4\value_Channel1 mannwhitneyu_pvalue is: 0.02477875733356573
+- Oxy\beta_4\value_Channel17 mannwhitneyu_pvalue is: 0.023842862716297646
+- Oxy\beta_4\value_Channel31 mannwhitneyu_pvalue is: 0.018846352086967593
+- Oxy\beta_4\value_Channel36 mannwhitneyu_pvalue is: 0.03226494270786646
+- Oxy\beta_5\value_Channel4 mannwhitneyu_pvalue is: 0.03473124515585925
+- Oxy\beta_5\value_Channel12 mannwhitneyu_pvalue is: 0.008536310559255666
+- Oxy\beta_5\value_Channel16 mannwhitneyu_pvalue is: 0.01810940094384322
+- Oxy\beta_5\value_Channel30 mannwhitneyu_pvalue is: 0.03873171804607604
+- Oxy\beta_5\value_Channel31 mannwhitneyu_pvalue is: 6.51637526010934e-05
+- Oxy\beta_5\value_Channel37 mannwhitneyu_pvalue is: 0.006260646620596408
+- Oxy\beta_5\value_Channel40 mannwhitneyu_pvalue is: 0.04791500006033972
+- Oxy\beta_5\value_Channel46 mannwhitneyu_pvalue is: 0.00018300463459581338
+- Oxy\beta_6\value_Channel19 mannwhitneyu_pvalue is: 0.04791500006033972
+- Oxy\beta_6\value_Channel20 mannwhitneyu_pvalue is: 0.044669195382929815
+##### dxy
+- Dxy\beta_0\value_Channel1 mannwhitneyu_pvalue is: 0.023842862716297646
+- Dxy\beta_0\value_Channel2 mannwhitneyu_pvalue is: 0.03108911669982851
+- Dxy\beta_0\value_Channel3 mannwhitneyu_pvalue is: 0.00282926349075512
+- Dxy\beta_0\value_Channel4 mannwhitneyu_pvalue is: 0.015408051606785133
+- Dxy\beta_0\value_Channel5 mannwhitneyu_pvalue is: 0.002327007608580281
+- Dxy\beta_0\value_Channel9 mannwhitneyu_pvalue is: 0.013067926424694754
+- Dxy\beta_0\value_Channel10 mannwhitneyu_pvalue is: 0.015408051606785133
+- Dxy\beta_0\value_Channel11 mannwhitneyu_pvalue is: 0.006260646620596408
+- Dxy\beta_0\value_Channel12 mannwhitneyu_pvalue is: 0.0018142869487514557
+- Dxy\beta_0\value_Channel13 mannwhitneyu_pvalue is: 0.0007903890481289204
+- Dxy\beta_0\value_Channel14 mannwhitneyu_pvalue is: 0.01810940094384322
+- Dxy\beta_0\value_Channel15 mannwhitneyu_pvalue is: 0.0011442800128117297
+- Dxy\beta_0\value_Channel16 mannwhitneyu_pvalue is: 0.022937784513882703
+- Dxy\beta_0\value_Channel17 mannwhitneyu_pvalue is: 0.04311711975690927
+- Dxy\beta_0\value_Channel19 mannwhitneyu_pvalue is: 0.04791500006033972
+- Dxy\beta_0\value_Channel22 mannwhitneyu_pvalue is: 0.03108911669982851
+- Dxy\beta_0\value_Channel23 mannwhitneyu_pvalue is: 0.03347866997173448
+- Dxy\beta_0\value_Channel30 mannwhitneyu_pvalue is: 0.03347866997173448
+- Dxy\beta_0\value_Channel33 mannwhitneyu_pvalue is: 0.02995025846396459
+- Dxy\beta_0\value_Channel35 mannwhitneyu_pvalue is: 0.03602362789538372
+- Dxy\beta_0\value_Channel40 mannwhitneyu_pvalue is: 0.03602362789538372
+- Dxy\beta_0\value_Channel41 mannwhitneyu_pvalue is: 0.01739781001295517
+- Dxy\beta_0\value_Channel43 mannwhitneyu_pvalue is: 0.008915713693816092
+- Dxy\beta_1\value_Channel1 mannwhitneyu_pvalue is: 0.011047829297413195
+- Dxy\beta_1\value_Channel20 mannwhitneyu_pvalue is: 0.023842862716297646
+- Dxy\beta_2\value_Channel24 mannwhitneyu_pvalue is: 0.03347866997173448
+- Dxy\beta_2\value_Channel41 mannwhitneyu_pvalue is: 0.01604783568568598
+- Dxy\beta_3\value_Channel9 mannwhitneyu_pvalue is: 0.014195495011004693
+- Dxy\beta_3\value_Channel10 mannwhitneyu_pvalue is: 0.02477875733356573
+- Dxy\beta_3\value_Channel20 mannwhitneyu_pvalue is: 0.04961084648965368
+- Dxy\beta_3\value_Channel31 mannwhitneyu_pvalue is: 0.03108911669982851
+- Dxy\beta_3\value_Channel37 mannwhitneyu_pvalue is: 0.03602362789538372
+- Dxy\beta_3\value_Channel39 mannwhitneyu_pvalue is: 0.03226494270786646
+- Dxy\beta_3\value_Channel40 mannwhitneyu_pvalue is: 0.0401494074325574
+- Dxy\beta_3\value_Channel46 mannwhitneyu_pvalue is: 0.021216801452499382
+- Dxy\beta_4\value_Channel20 mannwhitneyu_pvalue is: 0.044669195382929815
+- Dxy\beta_4\value_Channel46 mannwhitneyu_pvalue is: 0.008536310559255666
+- Dxy\beta_5\value_Channel11 mannwhitneyu_pvalue is: 0.02884744788949333
+- Dxy\beta_5\value_Channel43 mannwhitneyu_pvalue is: 0.013067926424694754
+- Dxy\beta_6\value_Channel20 mannwhitneyu_pvalue is: 0.03226494270786646
+- Dxy\beta_6\value_Channel37 mannwhitneyu_pvalue is: 0.04161086777401882
+##### total
+- Total\beta_0\value_Channel9 mannwhitneyu_pvalue is: 0.02995025846396459
+- Total\beta_0\value_Channel11 mannwhitneyu_pvalue is: 0.03347866997173448
+- Total\beta_0\value_Channel13 mannwhitneyu_pvalue is: 0.0401494074325574
+- Total\beta_0\value_Channel15 mannwhitneyu_pvalue is: 0.01604783568568598
+- Total\beta_0\value_Channel21 mannwhitneyu_pvalue is: 0.021216801452499382
+- Total\beta_0\value_Channel39 mannwhitneyu_pvalue is: 0.0401494074325574
+- Total\beta_0\value_Channel41 mannwhitneyu_pvalue is: 0.016710857427791555
+- Total\beta_0\value_Channel42 mannwhitneyu_pvalue is: 0.015408051606785133
+- Total\beta_0\value_Channel47 mannwhitneyu_pvalue is: 0.01739781001295517
+- Total\beta_1\value_Channel1 mannwhitneyu_pvalue is: 0.018846352086967593
+- Total\beta_1\value_Channel22 mannwhitneyu_pvalue is: 0.03347866997173448
+- Total\beta_1\value_Channel47 mannwhitneyu_pvalue is: 0.011047829297413195
+- Total\beta_1\value_Channel48 mannwhitneyu_pvalue is: 0.03473124515585925
+- Total\beta_2\value_Channel1 mannwhitneyu_pvalue is: 0.01739781001295517
+- Total\beta_2\value_Channel12 mannwhitneyu_pvalue is: 0.04626813762456213
+- Total\beta_2\value_Channel13 mannwhitneyu_pvalue is: 0.03108911669982851
+- Total\beta_3\value_Channel17 mannwhitneyu_pvalue is: 0.013621407228841496
+- Total\beta_4\value_Channel1 mannwhitneyu_pvalue is: 0.02206270017397261
+- Total\beta_4\value_Channel12 mannwhitneyu_pvalue is: 0.03108911669982851
+- Total\beta_4\value_Channel17 mannwhitneyu_pvalue is: 0.009310107561473524
+- Total\beta_4\value_Channel19 mannwhitneyu_pvalue is: 0.016710857427791555
+- Total\beta_4\value_Channel20 mannwhitneyu_pvalue is: 0.015408051606785133
+- Total\beta_4\value_Channel29 mannwhitneyu_pvalue is: 0.018846352086967593
+- Total\beta_4\value_Channel31 mannwhitneyu_pvalue is: 0.00045778756345148867
+- Total\beta_4\value_Channel32 mannwhitneyu_pvalue is: 0.00684745038831975
+- Total\beta_4\value_Channel36 mannwhitneyu_pvalue is: 0.018846352086967593
+- Total\beta_5\value_Channel12 mannwhitneyu_pvalue is: 0.009310107561473524
+- Total\beta_5\value_Channel19 mannwhitneyu_pvalue is: 0.0007490778322112311
+- Total\beta_5\value_Channel20 mannwhitneyu_pvalue is: 0.011524969599683752
+- Total\beta_5\value_Channel29 mannwhitneyu_pvalue is: 0.03347866997173448
+- Total\beta_5\value_Channel31 mannwhitneyu_pvalue is: 0.0018142869487514557
+- Total\beta_5\value_Channel46 mannwhitneyu_pvalue is: 0.003115871445629913
+- Total\beta_6\value_Channel19 mannwhitneyu_pvalue is: 0.002444273094396427
+- Total\beta_6\value_Channel20 mannwhitneyu_pvalue is: 0.005220911027504566
+- Total\beta_6\value_Channel37 mannwhitneyu_pvalue is: 0.010588320731813124
 # 空间层面分析
 ## 功能连接
 ## ALFF
