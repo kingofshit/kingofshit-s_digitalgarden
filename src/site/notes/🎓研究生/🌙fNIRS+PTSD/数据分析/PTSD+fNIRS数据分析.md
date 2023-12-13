@@ -4,11 +4,11 @@
 
 
 # 时间层面分析
-## 均值
+## 均值（单通道）
 ### 步骤
 1. 使用ReadMatRawdata.py读取预处理后mat格式数据，分段计算各通道oxy，dxy，total均值，保存在mean.csv中。
 2. 使用chazhi.py进行缺失值填补，生成mean_chazhi.csv。
-3. 组间：使用ReadCSV_mean.py进行mean_chazhi.csv读取，生成各通道不同阶段均值图片，并对每个通道每个阶段的均值进行Shapiro-Wilk 测试判断是否符合正态分布，随后进行独立样本 t 检验和Mann-Whitney U 检验。
+3. 组间：使用ReadCSV_mean.py进行mean_chazhi.csv读取，生成各通道不同阶段均值图片，并对每个通道每个阶段的均值进行Shapiro-Wilk 测试判断是否符合正态分布，符合正态分布进行方差齐性检验和独立样本 t 检验，否则进行Mann-Whitney U 检验。
 4. 不同任务阶段之间：使用ReadCSV_mean.py进行mean_chazhi.csv读取，并对每个通道不同阶段的均值进行Shapiro-Wilk 测试判断是否符合正态分布，随后进行配对 t 检验和Wilcoxon符号秩检验。
 ### 差异（组间）
 #### 独立样本 t 检验
@@ -614,6 +614,13 @@
 - Wilcoxon符号秩检验PTSD_Ch46_3_4: 0.02743559330701828
 - Wilcoxon符号秩检验HC_Ch47_4_5: 0.021778732538223267
 
+## 均值（所有通道）
+### 差异（组间）
+### 差异（不同任务阶段之间）
+
+## 均值（分脑区）
+### 差异（组间）
+### 差异（不同任务阶段之间）
 ## 一般线性模型
 ### 原理
 ### 特征提取步骤
@@ -623,7 +630,7 @@
 - 生成对应beta值：Task fNIRS——Individual-level Analysis
 - ![image.png](https://s2.loli.net/2023/12/05/sEOQU6VMl24mC7H.png)
 - 使用ReadMatGLM生成result.xlsx存放在NIRS_KIT_Individual_Analysis文件夹中
-- 使用ReadGLM进行result.xlsx读取，并对每个特征进行Shapiro-Wilk 测试判断是否符合正态分布，符合正态分布进行独立样本 t 检验，否则进行Mann-Whitney U 检验。
+- 使用ReadGLM进行result.xlsx读取，并对每个特征进行Shapiro-Wilk 测试判断是否符合正态分布，符合正态分布进行方差齐性检验和独立样本 t 检验，否则进行Mann-Whitney U 检验。
 
 ### 差异（组间）
 #### 独立样本 t 检验
@@ -644,9 +651,11 @@
 - Oxy\beta_5\value_Channel20 pvalue is: 0.01902242682655784
 - Oxy\beta_5\value_Channel22 pvalue is: 0.007681664152538641
 - Oxy\beta_5\value_Channel29 pvalue is: 0.03912072613245217
+	- 方差不齐
 ##### dxy
 - Dxy\beta_1\value_Channel17 pvalue is: 0.014599282854373096
 - Dxy\beta_6\value_Channel43 pvalue is: 0.029618215095634184
+	- 方差不齐
 ##### total
 - Total\beta_4\value_Channel34 pvalue is: 0.00913458491763327
 - Total\beta_4\value_Channel46 pvalue is: 0.002845112890940058
