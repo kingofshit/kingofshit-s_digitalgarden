@@ -4,8 +4,12 @@
 
 
 使用工具箱[[🎓研究生/近红外/工具/NIRS_KIT\|NIRS_KIT]]
-ptsd:31
-hc:28
+ptsd:31+1
+hc:28+15
+
+![zishu范式.drawio.png](https://s2.loli.net/2023/11/21/QB6nItXTjsNE5SO.png)
+
+![48ch.png](https://s2.loli.net/2023/12/04/2YwmNPJ4D97MoWx.png)
 # 数据准备和质量检查 (Data Viewer)
 ## 数据格式转换 (Data Preparation)
 将数据转换成工具包所需格式
