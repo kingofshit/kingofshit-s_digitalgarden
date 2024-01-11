@@ -14,15 +14,31 @@
 #### 独立样本 t 检验
 ##### oxy
 - channel 6 period 6 t 检验:  p value is 0.031726943694773344
+	- ![Channel 6_Period 6_oxy.png](https://s2.loli.net/2023/12/14/XzrFkGTHmVu7wIa.png)
+
 - channel 15 period 6 t 检验:  p value is 0.0032079485944800585
+	- ![Channel 15_Period 6_oxy.png](https://s2.loli.net/2023/12/14/vYWt5Ow4IVqC1Ku.png)
+
 - channel 27 period 2 t 检验:  p value is 0.033139996394576744
+	- ![Channel 27_Period 2_oxy.png](https://s2.loli.net/2023/12/14/WMkzbAS4NnxhtoB.png)
+
 ##### dxy
 - channel 6 period 6 t 检验:  p value is 0.008180258486405176
+	- ![Channel 6_Period 6_dxy.png](https://s2.loli.net/2023/12/14/ianqvH4sN9f3zXb.png)
+
 - channel 27 period 2 t 检验:  p value is 0.02743538126850327
+	- ![Channel 27_Period 2_dxy.png](https://s2.loli.net/2023/12/14/kEauj2qoVfZcSgO.png)
+
 ##### total
 - channel 1 period 3 t 检验:  p value is 0.02591128473902421
+	- ![Channel 1_Period 3_total.png](https://s2.loli.net/2023/12/14/bK2F5zBkidamG6E.png)
+
 - channel 46 period 4 t 检验:  p value is 0.023185409733800223
+	- ![Channel 46_Period 4_total.png](https://s2.loli.net/2023/12/14/T4jKfcdBiryN8sq.png)
+
 - channel 48 period 4 t 检验:  p value is 0.047039089668227424
+	- ![Channel 48_Period 4_total.png](https://s2.loli.net/2023/12/14/JSUnBjpo167xTgM.png)
+
 #### Mann-Whitney U 检验
 ##### oxy
 - channel 6 period 6 Mann-Whitney U 检验:  p value is 0.0214662479883721
@@ -114,12 +130,23 @@
 #### 配对 t 检验
 ##### oxy
 - 配对t检验PTSD_Ch17_1_2: 0.038236809053011425
+	- ![PTSD_Ch17_1_2oxy.png](https://s2.loli.net/2023/12/14/mKBgsyc4AdGZUSv.png)
+
 - 配对t检验PTSD_Ch17_1_6: 0.007005532889070121
+	- ![PTSD_Ch17_1_6oxy.png](https://s2.loli.net/2023/12/14/u7ZLaW6AI4C1R9B.png)
+
+
 ##### dxy
 - 配对t检验HC_Ch44_1_2: 0.002144924449828232
+	- ![HC_Ch44_1_2dxy.png](https://s2.loli.net/2023/12/14/YsQ8Cv5FIHb2EBX.png)
+
 - 配对t检验HC_Ch44_2_5: 0.014316387399894666
+	- ![HC_Ch44_2_5dxy.png](https://s2.loli.net/2023/12/14/FItDN3fiqeybT1V.png)
+
 ##### total
 - 配对t检验PTSD_Ch1_3_5: 0.03220378457414664
+	- ![PTSD_Ch1_3_5total.png](https://s2.loli.net/2023/12/14/SfQxZdUkmlRt8ei.png)
+
 #### Wilcoxon符号秩检验
 ##### oxy
 - Wilcoxon符号秩检验PTSD_Ch1_3_5: 0.03935616556555033
@@ -762,5 +789,16 @@
 - Total\beta_6\value_Channel20 mannwhitneyu_pvalue is: 0.005220911027504566
 - Total\beta_6\value_Channel37 mannwhitneyu_pvalue is: 0.010588320731813124
 # 空间层面分析
+## 均值
+### HC
+![057.png](https://s2.loli.net/2023/12/14/AvC8omN9p73R1JG.png)
+
+![057.png](https://s2.loli.net/2023/12/14/yYnJfE1p9TxkPaA.png)
+
+### PTSD
+![054.png](https://s2.loli.net/2023/12/14/IH91ok3WntOqVPr.png)
+
+![054.png](https://s2.loli.net/2023/12/14/GtIKJ24RclSLTio.png)
+
 ## 功能连接
 ## ALFF
