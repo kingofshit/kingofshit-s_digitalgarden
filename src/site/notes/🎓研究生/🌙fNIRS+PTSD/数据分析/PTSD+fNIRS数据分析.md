@@ -641,13 +641,25 @@
 - Wilcoxon符号秩检验PTSD_Ch46_3_4: 0.02743559330701828
 - Wilcoxon符号秩检验HC_Ch47_4_5: 0.021778732538223267
 
-## 均值（所有通道）
-### 差异（组间）
-### 差异（不同任务阶段之间）
 
 ## 均值（分脑区）
+
 ### 差异（组间）
+
 ### 差异（不同任务阶段之间）
+- PTSD配对t检验显著： oxy_dmPFC_Count1_Count2: 0.005799895442991949
+- PTSD配对t检验显著： oxy_rightdlPFC_Resting_Count2: 0.007190606581855417
+- HC配对t检验显著： oxy_rightdlPFC_Resting_Count2: 0.0011439777504153518
+- HC配对t检验显著： oxy_rightdlPFC_Resting_Count3: 0.00044117809363883624
+- PTSD配对t检验显著： oxy_rightdlPFC_Count1_Count2: 0.0002850671807130424
+- HC配对t检验显著： oxy_leftdlPFC_Count2_Count3: 0.046734245484794906
+- HC配对t检验显著： oxy_rightvlPFC_Count1_Count2: 0.04375849440436669
+- PTSD配对t检验显著： oxy_vmPFC_Count1_Listen: 0.02245878922736228
+- HC配对t检验显著： dxy_dmPFC_Resting_Count2: 0.009043661295227275
+- HC配对t检验显著： dxy_rightOFC_Speak_Count3: 0.01835025414452779
+- PTSD配对t检验显著： total_dmPFC_Count1_Speak: 0.004218632821406566
+- HC配对t检验显著： total_dmPFC_Count2_Count3: 0.021092885974574135
+- PTSD配对t检验显著： total_rightdlPFC_Count1_Count2: 6.413820159040278e-05
 ## 一般线性模型
 ### 原理
 ### 特征提取步骤
