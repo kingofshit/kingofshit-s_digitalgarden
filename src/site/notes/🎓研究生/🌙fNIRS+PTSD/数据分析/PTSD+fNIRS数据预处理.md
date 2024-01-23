@@ -4,12 +4,16 @@
 
 
 使用工具箱[[🎓研究生/近红外/工具/NIRS_KIT\|NIRS_KIT]]
-ptsd:31+1
-hc:28+15
+ptsd:34
+hc:45
 
 ![zishu范式.drawio.png](https://s2.loli.net/2023/11/21/QB6nItXTjsNE5SO.png)
 
 ![48ch.png](https://s2.loli.net/2023/12/04/2YwmNPJ4D97MoWx.png)
+
+![image.png](https://s2.loli.net/2024/01/23/PoKlMmYStiIeUu7.png)
+
+
 # 数据准备和质量检查 (Data Viewer)
 ## 数据格式转换 (Data Preparation)
 将数据转换成工具包所需格式
@@ -39,6 +43,8 @@ hc:28+15
 		4. 重采样：对于采样率较高的017、018进行重采样
 2. 预处理后文件存放至NIRS_KIT_Pre文件夹
 ![Pasted image 20230720221018.png](/img/user/%F0%9F%93%8Cpic/Pasted%20image%2020230720221018.png)
+![image.png](https://s2.loli.net/2024/01/23/WeaYdRf1IznBh3g.png)
+
 
 ## 数据分段
 根据不同任务对数据进行分段，便于后续处理
@@ -64,6 +70,8 @@ hc:28+15
 1. 运行Crop.m
 ## 数据查看
 - 可通过isChannelEmpty.m查看预处理后哪些通道为全0（数据质量差）
+	- hc:030
+	- ptsd:012,014,066
 - 可通过DrawChannel.m绘制通道信息
 ## 插值坏导
 - 目前是先提取特征，再进行插值
