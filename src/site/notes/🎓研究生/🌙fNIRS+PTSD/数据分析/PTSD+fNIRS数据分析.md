@@ -5,6 +5,13 @@
 
 # 时间层面分析
 ## 步骤
+### 统一步骤
+1. 修改被试列表：PTSDsub_list.csv、HCsub_list.csv
+2. 读取原始数据：ReadMatRawdata.py，生成mean.csv、integral.csv
+3. 插值：chazhi.py，生成mean_chazhi.csv、integral_chazhi.csv
+4. 进入特征文件夹（如01mean），依次运行ReadCSV_mean、ReadCSV_channel_result.py、ReadCSV_roi_result.py
+5. 结果保存至特征文件夹result子文件夹中
+6. 参数保存至fNIRS_Py-参数子文件夹中
 ### 均值
 1. 使用ReadMatRawdata.py读取预处理后mat格式数据，分段计算各通道oxy，dxy，total均值，保存在mean.csv中。
 2. 使用chazhi.py进行缺失值填补，生成mean_chazhi.csv。
