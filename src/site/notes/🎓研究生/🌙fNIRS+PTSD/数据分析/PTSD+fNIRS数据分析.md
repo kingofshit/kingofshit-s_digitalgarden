@@ -175,3 +175,5 @@
 ![054.png](https://s2.loli.net/2023/12/14/GtIKJ24RclSLTio.png)
 
 ## 功能连接
+### 基于互信息（Mutual Information, MI）
+### 基于Pearson相关系数
