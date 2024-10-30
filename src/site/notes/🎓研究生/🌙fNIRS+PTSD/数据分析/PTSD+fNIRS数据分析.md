@@ -175,5 +175,48 @@
 ![054.png](https://s2.loli.net/2023/12/14/GtIKJ24RclSLTio.png)
 
 ## 功能连接
+### 步骤
+参考：Early screening model for mild cognitive impairment based on resting-state functional connectivity: a functional near-infrared spectroscopy study
+
+1. 计算皮尔逊相关系数以确定每对测量通道之间的功能连接。因此，将为每个参与者生成一个 71 × 71 的相关矩阵。随后，应用 Fisher 的 r 到 z 变换将这些相关系数转换为 z 分数，以提高正态性。
+2. 从三个角度观察功能连接的变化：全脑平均、基于感兴趣区域（ROI）和基于通道。在ROI分析中，71个测量通道根据其位置分为9个脑区（见表2），包括左前额叶（LPF）、右前额叶（RPF）、左颞叶（LT）、上顶叶（ P）、右颞叶（RT）、左下顶叶（LIP）、右下顶叶（RIP）、左枕叶（LO）和右枕叶（RO）。然后对九个 ROI 内部通道的时间序列进行平均，以获得基于 ROI 的 z 分数。
+3. 采用双样本 t 检验和错误发现率 (FDR) 校正来比较 MCI 组和 HC 组之间功能连接的差异。 71 个通道为每个受试者构成了 ð71 × 70∕2Þ⁄2485 个无向连接。以基于通道的分析为例，使用未配对的 t 检验来计算这些连接的组间差异，FDR 校正后总共产生 2485 个修改的 p 值。其中p值<0.05被认为是显着差异(*p < 0.05)，而<0.01被认为是极其显着差异(**p < 0.01)。
+4. 此外，采用受试者工作特征（ROC）曲线方法来评估这些差异连接的敏感性和特异性。通过 ROC 曲线下面积 (AUC) 来量化这些特征在识别 MCI 方面的表现。
+5. 然后，提取具有显着差异的连接作为特征输入到线性判别分析（LDA）进行分类。根据 AUC 值和修改后的 p 值，六个基于 ROI 的 (AUC > 0.65) 和四个基于通道的 (**p < 0.01) 单独或组合参与模型训练。然后报告了 5 倍交叉验证分类精度。33,34 具体来说，62 个 MCI 样本被随机分为训练集和验证集 (4:1) 以及 HC 组。为了减少随机成分的不确定性并提高分类性能的稳定性，上述步骤重复N 1/4 10次并在呈现前取平均值。
+
+
 ### 基于互信息（Mutual Information, MI）
 ### 基于Pearson相关系数
+## 网络指标
+D:\\fNIRS_Data\\zishu\\Gretna\\1RESTING\\HC
+### Assortativity
+ar
+r_All_Thres
+### Hierarchy
+ab
+b_All_Thres
+
+### NetworkEfficiency
+aEg
+Eg_All_Thres
+aEloc
+Eloc_All_Thres
+
+### RichClub
+phi_norm_Thres001-phi_norm_Thres010
+phi_real_Thres001-phi_real_Thres010
+
+### SmallWorld
+aCp
+aGamma
+aLambda
+aLp
+aSigma
+Cp_All_Thres
+Gamma_All_Thres
+Lambda_All_Thres
+Lp_All_Thres
+Sigma_All_Thres
+### Synchronization
+as
+s_All_Thres
